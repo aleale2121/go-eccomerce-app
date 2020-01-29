@@ -1,0 +1,22 @@
+hash: e3c60dfc32765a63af5aaa06c83265b4b661b7e962daf180146f3f643c2a322b
+updated: 2020-01-29T13:47:47.6528821+03:00
+imports:
+- name: github.com/badoux/checkmail
+  version: 9661bd69e9ad6fce1f7579022bdab0440807722a
+- name: github.com/gorilla/mux
+  version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
+- name: github.com/gorilla/securecookie
+  version: 61b4ad17eb88d0d1118560d1101176279be2bc88
+- name: github.com/gorilla/sessions
+  version: 4355a998706e83fe1d71c31b07af94e34f68d74a
+- name: github.com/lib/pq
+  version: 99274577be97ac9b1d95a2d61d566dc9b7cc6a54
+  subpackages:
+  - oid
+  - scram
+- name: golang.org/x/crypto
+  version: 69ecbb4d6d5dab05e49161c6e77ea40a030884e1
+  subpackages:
+  - bcrypt
+  - blowfish
+testImports: []
