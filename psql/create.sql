@@ -1,3 +1,5 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 create database test;
 
 \c test;

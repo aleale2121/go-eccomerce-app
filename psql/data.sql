@@ -1,3 +1,7 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
+-- noinspection SqlDialectInspectionForFile
+
 insert into category(description) values ('Frutas');
 insert into category(description) values ('Livros');
 insert into category(description) values ('Carros');

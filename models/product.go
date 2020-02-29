@@ -1,6 +1,9 @@
 package models
 
-import "fmt"
+import (
+  "fmt"
+  "github.com/pkg/errors"
+)
 
 type Product struct {
   Id uint64
@@ -160,4 +163,64 @@ func (p *Product) PriceToString() string {
 func (p *Product) AmountToString() string {
   return fmt.Sprintf("%.2f", p.Amount)
 }
+func CreateCat(){
+  con := Connect()
+  defer con.Close()
+  const qry = `create table if not exists category(
+    id serial primary key,
+    description varchar(100) not null
+  );`
 
+  // Exec executes a query without returning any rows.
+  if _, err := con.Exec(qry); err != nil {
+    err = errors.Wrapf(err,
+      "Events table creation query failed (%s)",
+      qry)
+    return
+  }
+  return
+}
+func CreatePro(){
+  con := Connect()
+  defer con.Close()
+  const qry = `create table if not exists products(
+    id bigserial primary key,
+    name varchar(255) not null,
+    price real not null,
+    quantity integer default 0,
+    amount real default 0.0,
+    category bigint not null,
+    constraint products_category_fk foreign key(category)
+    references category(id)
+   );`
+
+  // Exec executes a query without returning any rows.
+  if _, err := con.Exec(qry); err != nil {
+    err = errors.Wrapf(err,
+      "Events table creation query failed (%s)",
+      qry)
+    return
+  }
+  return
+}
+func CreateUser(){
+  con := Connect()
+  defer con.Close()
+  const qry = `create table if not exists users(
+    id bigserial primary key,
+    firstname varchar(15) not null,
+    lastname varchar(20) not null,
+    email varchar(40) not null unique,
+    password varchar(100) not null,
+    status char(1) default '0'
+  );`
+
+  // Exec executes a query without returning any rows.
+  if _, err := con.Exec(qry); err != nil {
+    err = errors.Wrapf(err,
+      "Events table creation query failed (%s)",
+      qry)
+    return
+  }
+  return
+}
