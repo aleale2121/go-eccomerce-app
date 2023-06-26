@@ -41,17 +41,16 @@ func checkErrRegister(err error, w http.ResponseWriter, r *http.Request) {
 			models.ErrEmailTaken,
 			models.ErrRequiredPassword:
 			message = fmt.Sprintf("%s", err)
-			break
 		default:
 			utils.InternalServerError(w)
 			return
 		}
 		sessions.Message(message, "danger", r, w)
-		http.Redirect(w, r, "/register", 302)
+		http.Redirect(w, r, "/register", http.StatusSeeOther)
 		return
 	}
 	sessions.Message(message, "success", r, w)
-	http.Redirect(w, r, "/login", 302)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func userGetHandler(w http.ResponseWriter, r *http.Request) {

@@ -14,9 +14,9 @@ import (
 )
 
 var (
-	ErrPriceValue          = errors.New("Erro de entrada: \"Preço\" inválido.")
-	ErrQuantityValue       = errors.New("Erro de entrada: \"Quantidade\" inválida")
-	ErrRequiredProductName = errors.New("Nome do produto requerido")
+	ErrPriceValue          = errors.New("input error: \"price\" invalid")
+	ErrQuantityValue       = errors.New("input error: \"amount\" invalid")
+	ErrRequiredProductName = errors.New("required product name")
 )
 
 func productGetHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +58,7 @@ func productCreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	product, err := verifyInputsProduct(r)
 	if err != nil {
 		sessions.Message(fmt.Sprintf("%s", err), "danger", r, w)
-		http.Redirect(w, r, "/product-create", 302)
+		http.Redirect(w, r, "/product-create", http.StatusSeeOther)
 		return
 	}
 	_, err = models.NewProduct(product)
@@ -67,8 +67,8 @@ func productCreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		utils.InternalServerError(w)
 		return
 	}
-	sessions.Message("Novo produto adicionado", "success", r, w)
-	http.Redirect(w, r, "/products", 302)
+	sessions.Message("New product added", "success", r, w)
+	http.Redirect(w, r, "/products", http.StatusSeeOther)
 }
 
 func verifyInputsProduct(r *http.Request) (models.Product, error) {
@@ -128,7 +128,7 @@ func productEditPostHandler(w http.ResponseWriter, r *http.Request) {
 	product, err := verifyInputsProduct(r)
 	if err != nil {
 		sessions.Message(fmt.Sprintf("%s", err), "danger", r, w)
-		http.Redirect(w, r, fmt.Sprintf("product-edit?productId=%d", product.Id), 302)
+		http.Redirect(w, r, fmt.Sprintf("product-edit?productId=%d", product.Id), http.StatusSeeOther)
 		return
 	}
 	rows, err := models.UpdateProduct(product)
@@ -137,8 +137,8 @@ func productEditPostHandler(w http.ResponseWriter, r *http.Request) {
 		utils.InternalServerError(w)
 		return
 	}
-	sessions.Message(fmt.Sprintf("%d produto foi atualizado com sucesso!", rows), "info", r, w)
-	http.Redirect(w, r, "/products", 302)
+	sessions.Message(fmt.Sprintf("%d product has been updated successfully!", rows), "info", r, w)
+	http.Redirect(w, r, "/products", http.StatusSeeOther)
 }
 
 func productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
@@ -146,7 +146,7 @@ func productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.ParseUint(keys.Get("productId"), 10, 64)
 	ok, _ := strconv.ParseBool(keys.Get("confirm"))
 	if !ok {
-		http.Redirect(w, r, "/products", 302)
+		http.Redirect(w, r, "/products", http.StatusSeeOther)
 		return
 	}
 	rows, err := models.DeleteProduct(id)
@@ -155,6 +155,6 @@ func productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
 		utils.InternalServerError(w)
 		return
 	}
-	sessions.Message(fmt.Sprintf("%d produto foi excluído permanentemente.", rows), "warning", r, w)
-	http.Redirect(w, r, "/products", 302)
+	sessions.Message(fmt.Sprintf("%d product has been permanently deleted.", rows), "warning", r, w)
+	http.Redirect(w, r, "/products", http.StatusSeeOther)
 }

@@ -38,15 +38,15 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-user-edit"></i> Minha conta</a>
+            <i class="fas fa-user-edit"></i> MyAccount</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-lock"></i> Segurança</a>
+            <i class="fas fa-lock"></i> Security</a>
       </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">
-      <a href="/logout" class="btn btn-sm btn-outline-warning">Sair <i class="fas fa-sign-out-alt"></i></a>
+      <a href="/logout" class="btn btn-sm btn-outline-warning">Logout <i class="fas fa-sign-out-alt"></i></a>
     </div>
   </div>
 </nav>
@@ -82,12 +82,12 @@
         <thead class="thead-dark">
             <th>Id</th>
             <th>Nome</th>
-            <th>Preço Unit. <i class="fas fa-dollar-sign"></i> </th>
-            <th>Quantidade</th>
+            <th>Price Unit. <i class="fas fa-dollar-sign"></i> </th>
+            <th>Amount</th>
             <th>Valor Total <i class="fas fa-coins"></i></th>
-            <th>Categoria</th>
-            <th> Editar </th>
-            <th> Deletar</th>
+            <th>Category</th>
+            <th> Edit </th>
+            <th> Delete</th>
         </thead>
         <tbody>
             {{ range .Products }}

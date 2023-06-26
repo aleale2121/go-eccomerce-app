@@ -11,7 +11,7 @@ func AuthRequired(handler http.HandlerFunc) http.HandlerFunc {
 		session, _ := sessions.Store.Get(r, "session")
 		_, ok := session.Values["USERID"]
 		if !ok {
-			http.Redirect(w, r, "/login", 302)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 		handler.ServeHTTP(w, r)

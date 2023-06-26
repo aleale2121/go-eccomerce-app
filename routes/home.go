@@ -41,7 +41,7 @@ func homePostHandler(w http.ResponseWriter, r *http.Request) {
 	var html string = ""
 	if count > 0 {
 		html += "<table class='table table-bordered'>"
-		html += fmt.Sprintf("<th> Id </th> <th> Categoria </th> <th> Nome </th> <th> Preço </th> <th> Quantidade </th> <th> Valor total</th>")
+		html += "<th> Id </th> <th> Category </th> <th> Nome </th> <th> Preço </th> <th> Amount </th> <th> Valor total</th>"
 		for _, p := range products {
 			html += "<tr>"
 			html += fmt.Sprintf("<td> %d </td> <td> %s </td> <td> %s </td> <td> %.2f R$ </td> <td> %d </td> <td> %.2f </td>", p.Id,
@@ -50,7 +50,7 @@ func homePostHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		html += "</table>"
 	} else {
-		html += fmt.Sprintf(`<p class='alert alert-info'> Nada encotrado com <code>"<strong> %s </strong> </code>"</p>`, search)
+		html += fmt.Sprintf(`<p class='alert alert-info'> nothing found with <code>"<strong> %s </strong> </code>"</p>`, search)
 	}
 
 	w.Write([]byte(html))

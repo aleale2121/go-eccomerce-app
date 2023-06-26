@@ -38,15 +38,15 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-user-edit"></i> Minha conta</a>
+            <i class="fas fa-user-edit"></i> My account</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-lock"></i> Segurança</a>
+            <i class="fas fa-lock"></i> Security</a>
       </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">
-      <a href="/logout" class="btn btn-sm btn-outline-warning">Sair <i class="fas fa-sign-out-alt"></i></a>
+      <a href="/logout" class="btn btn-sm btn-outline-warning">Logout <i class="fas fa-sign-out-alt"></i></a>
     </div>
   </div>
 </nav>
@@ -73,7 +73,7 @@
     <p class="alert alert-{{ .Alert.Type }}"> {{ .Alert.Message }} </p>
   {{ end }}
   <div class="my-3 p-3 bg-white rounded shadow-sm">
-    <p class="text-right"><a href="/products" class="btn btn-primary"> Voltar </a></p>
+    <p class="text-right"><a href="/products" class="btn btn-primary"> Go Back </a></p>
     <h6 class="border-bottom border-gray pb-2 mb-0"> 
         <code>Do you want to the product? </code>
     </h6>
@@ -84,7 +84,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="name">Name of product</label>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Informe o nome do produto"
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter the product name"
                     value="{{ .Product.Name }}" />
                 </div>
             </div>
@@ -93,14 +93,14 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="price">Total Price</label>
-                    <input type="text" name="price" id="price" class="form-control" placeholder="Informe o preço unitário do produto" 
+                    <input type="text" name="price" id="price" class="form-control" placeholder="Enter price per unit" 
                     value="{{ .PriceFormat }}" />
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Informe a quantidade disponpível"
+                    <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter Quantity Available"
                     value="{{ .Product.Quantity }}" />
                 </div>
             </div>
@@ -120,7 +120,7 @@
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </form>
   </div>

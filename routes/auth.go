@@ -12,7 +12,7 @@ import (
 func loginGetHandler(w http.ResponseWriter, r *http.Request) {
   _, isAuth := sessions.IsLogged(r)
   if isAuth {
-    http.Redirect(w, r, "/admin", 302)
+    http.Redirect(w, r, "/admin", http.StatusSeeOther)
     return
   }
 	message, alert := sessions.Flash(r, w)
@@ -42,7 +42,7 @@ func checkErrAuthenticate(err error, w http.ResponseWriter, r *http.Request, use
 				 session.Values["MESSAGE"] = fmt.Sprintf("%s", err)
 				 session.Values["ALERT"] = "danger"
 				 session.Save(r, w)
-				 http.Redirect(w, r, "/login", 302)
+				 http.Redirect(w, r, "/login", http.StatusSeeOther)
 			default:
 				utils.InternalServerError(w)
 		}
@@ -50,12 +50,12 @@ func checkErrAuthenticate(err error, w http.ResponseWriter, r *http.Request, use
 	}
 	session.Values["USERID"] = user.Id
 	session.Save(r, w)
-	http.Redirect(w, r, "/admin", 302)	
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)	
 }
 
 func logoutGetHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := sessions.Store.Get(r, "session")
 	delete(session.Values, "USERID")
 	session.Save(r, w)
-	http.Redirect(w, r, "/", 302)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
