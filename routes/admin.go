@@ -3,8 +3,8 @@ package routes
 import (
 	"net/http"
 
-	"github.com/aleale2121/go-webapp/models"
-	"github.com/aleale2121/go-webapp/utils"
+	"github.com/aleale2121/go-eccomerce-app/models"
+	"github.com/aleale2121/go-eccomerce-app/utils"
 )
 
 func adminGetHandler(w http.ResponseWriter, r *http.Request) {

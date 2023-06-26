@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/aleale2121/go-webapp/utils"
+	"github.com/aleale2121/go-eccomerce-app/utils"
 )
 
 type User struct {

@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"github.com/aleale2121/go-webapp/middleware"
+	"github.com/aleale2121/go-eccomerce-app/middleware"
 	"github.com/gorilla/mux"
 )
 

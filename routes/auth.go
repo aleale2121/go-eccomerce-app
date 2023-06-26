@@ -2,10 +2,10 @@ package routes
 
 import (
 	"fmt"
-	"github.com/aleale2121/go-webapp/auth"
-	"github.com/aleale2121/go-webapp/models"
-	"github.com/aleale2121/go-webapp/sessions"
-	"github.com/aleale2121/go-webapp/utils"
+	"github.com/aleale2121/go-eccomerce-app/auth"
+	"github.com/aleale2121/go-eccomerce-app/models"
+	"github.com/aleale2121/go-eccomerce-app/sessions"
+	"github.com/aleale2121/go-eccomerce-app/utils"
 	"net/http"
 )
 

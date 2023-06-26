@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/aleale2121/go-webapp/sessions"
+	"github.com/aleale2121/go-eccomerce-app/sessions"
 )
 
 func AuthRequired(handler http.HandlerFunc) http.HandlerFunc {
