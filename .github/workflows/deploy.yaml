@@ -25,6 +25,10 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+    - name: Load Secrets and Save to .env
+      run: |
+        aws secretsmanager get-secret-value --secret-id eccomerce --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > ./.env 
+        cat ./.env
     - name: Build, tag, and push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
