@@ -18,10 +18,7 @@ var (
 )
 
 func IsEmpty(attr string) bool {
-	if attr == "" {
-		return true
-	}
-	return false
+	return attr == "" 
 }
 
 func Trim(attr string) string {
@@ -30,17 +27,11 @@ func Trim(attr string) string {
 
 func IsEmail(email string) bool {
 	err := checkmail.ValidateFormat(email)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 func Max(attr string, lim int) bool {
-	if len(attr) <= lim {
-		return true
-	}
-	return false
+	return len(attr) <= lim 
 }
 
 func ValidateLimitFields(user User) (User, error) {

@@ -1,15 +1,21 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/aleale2121/go-eccomerce-app/models"
 	"github.com/aleale2121/go-eccomerce-app/routes"
 	"github.com/aleale2121/go-eccomerce-app/sessions"
 	"github.com/aleale2121/go-eccomerce-app/utils"
-	"log"
-	"net/http"
-	"os"
 )
+
+//go:embed views/*
+//go:embed assets/*
+var content embed.FS
 
 func main() {
 	models.TestConnection()
@@ -25,7 +31,7 @@ func main() {
 	models.CreateUser()
 	fmt.Printf("Listening Port %s\n", port)
 	utils.LoadTemplates("views/*.html")
-	r := routes.NewRouter()
+	r := routes.NewRouter(content)
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }

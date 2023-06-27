@@ -1,13 +1,16 @@
 package routes
 
 import (
+	"embed"
+	"io/fs"
+	"log"
 	"net/http"
 
 	"github.com/aleale2121/go-eccomerce-app/middleware"
 	"github.com/gorilla/mux"
 )
 
-func NewRouter() *mux.Router {
+func NewRouter(staticDir embed.FS) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", homeGetHandler).Methods("GET")
 	r.HandleFunc("/", homePostHandler).Methods("POST")
@@ -24,8 +27,11 @@ func NewRouter() *mux.Router {
 	r.HandleFunc("/product-edit", middleware.AuthRequired(productEditPostHandler)).Methods("POST")
 	r.HandleFunc("/product-delete", middleware.AuthRequired(productDeleteGetHandler)).Methods("GET")
 	r.HandleFunc("/users", middleware.AuthRequired(userGetHandler)).Methods("GET")
-
-	fileServer := http.FileServer(http.Dir("./assets/"))
+	serverRoot, err := fs.Sub(staticDir, "assets")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fileServer := http.FileServer(http.FS(serverRoot))
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fileServer))
 	return r
 }
