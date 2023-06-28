@@ -10,7 +10,7 @@ FROM alpine:3.16
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY --from=builder /app/views ./views
-
+COPY app.env .
 COPY start.sh .
 COPY wait-for.sh .
 EXPOSE 8080

@@ -1,6 +1,6 @@
 #!/bin/sh
 
 set -e
-source /app/.env
+source /app/app.env
 echo "start the app"
 exec "$@"
