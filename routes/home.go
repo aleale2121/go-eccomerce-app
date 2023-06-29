@@ -8,13 +8,13 @@ import (
 	"github.com/aleale2121/go-eccomerce-app/utils"
 )
 
-func homeGetHandler(w http.ResponseWriter, r *http.Request) {
-	categories, err := models.GetCategories()
+func  (rs Routes) homeGetHandler(w http.ResponseWriter, r *http.Request) {
+	categories, err := rs.store.GetCategories()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))
 	}
-	products, err := models.GetProducts()
+	products, err := rs.store.GetProducts()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))
@@ -28,11 +28,11 @@ func homeGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func homePostHandler(w http.ResponseWriter, r *http.Request) {
+func  (rs Routes) homePostHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "text/html; charset=UTF-8")
 	r.ParseForm()
 	search := r.PostForm.Get("search")
-	products, err := models.SearchProducts(search)
+	products, err := rs.store.SearchProducts(search)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error"))

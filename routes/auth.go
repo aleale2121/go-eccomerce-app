@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func loginGetHandler(w http.ResponseWriter, r *http.Request) {
+func  (rs Routes) loginGetHandler(w http.ResponseWriter, r *http.Request) {
   _, isAuth := sessions.IsLogged(r)
   if isAuth {
     http.Redirect(w, r, "/admin", http.StatusSeeOther)
@@ -23,11 +23,11 @@ func loginGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func loginPostHandler(w http.ResponseWriter, r *http.Request) {
+func  (rs Routes) loginPostHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	email := r.PostForm.Get("email")
 	password := r.PostForm.Get("password")
-	user, err := auth.Singin(email, password)
+	user, err := auth.Singin(rs.store, email, password)
 	checkErrAuthenticate(err, w, r, user)
 }
 
@@ -53,7 +53,7 @@ func checkErrAuthenticate(err error, w http.ResponseWriter, r *http.Request, use
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)	
 }
 
-func logoutGetHandler(w http.ResponseWriter, r *http.Request) {
+func  (rs Routes) logoutGetHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := sessions.Store.Get(r, "session")
 	delete(session.Values, "USERID")
 	session.Save(r, w)

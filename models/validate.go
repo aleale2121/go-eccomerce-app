@@ -41,11 +41,10 @@ func ValidateLimitFields(user User) (User, error) {
 	return user, nil
 }
 
-func VerifyEmail(email string) (bool, error) {
-	con := Connect()
-	defer con.Close()
+func (s Store) VerifyEmail(email string) (bool, error) {
+
 	sql := "select count(email) from users where email = $1"
-	rs, err := con.Query(sql, email)
+	rs, err := s.DB.Query(sql, email)
 	if err != nil {
 		return false, err
 	}
@@ -63,7 +62,7 @@ func VerifyEmail(email string) (bool, error) {
 	return true, nil
 }
 
-func ValidateNewUser(user User) (User, error) {
+func (s Store)  ValidateNewUser(user User) (User, error) {
 	user, err := ValidateLimitFields(user)
 	if err != nil {
 		return user, err
@@ -86,19 +85,18 @@ func ValidateNewUser(user User) (User, error) {
 	if IsEmpty(user.Password) {
 		return User{}, ErrRequiredPassword
 	}
-	_, err = VerifyEmail(user.Email)
+	_, err = s.VerifyEmail(user.Email)
 	if err != nil {
 		return User{}, err
 	}
 	return user, nil
 }
 
-func Count(table string) (int64, error) {
-	con := Connect()
-	defer con.Close()
+func (s Store) Count(table string) (int64, error) {
+
 	sql := fmt.Sprintf("select count(*) from %s", table)
 	var count int64
-	err := con.QueryRow(sql).Scan(&count)
+	err := s.DB.QueryRow(sql).Scan(&count)
 	if err != nil {
 		return 0, err
 	}

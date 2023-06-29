@@ -6,9 +6,15 @@ import (
 	"github.com/aleale2121/go-eccomerce-app/models"
 	"github.com/aleale2121/go-eccomerce-app/utils"
 )
+type Routes struct{
+	store models.Store
+}
 
-func adminGetHandler(w http.ResponseWriter, r *http.Request) {
-	products, users, err := LoadData()
+func NewRoutes(store models.Store) Routes{
+	return Routes{store: store}
+}
+func (rs Routes) adminGetHandler(w http.ResponseWriter, r *http.Request) {
+	products, users, err := rs.LoadData()
 	if err != nil {
 		utils.InternalServerError(w)
 		return
@@ -30,12 +36,12 @@ func adminGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func LoadData() ([]models.Product, []models.User, error) {
-	products, err := models.GetProducts()
+func (rs Routes) LoadData() ([]models.Product, []models.User, error) {
+	products, err := rs.store.GetProducts()
 	if err != nil {
 		return nil, nil, err
 	}
-	users, err := models.GetUsers()
+	users, err := rs.store.GetUsers()
 	if err != nil {
 		return nil, nil, err
 	}

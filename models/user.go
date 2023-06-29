@@ -13,15 +13,14 @@ type User struct {
 	Status    string
 }
 
-func NewUser(user User) (bool, error) {
-	user, err := ValidateNewUser(user)
+func  (s Store) NewUser(user User) (bool, error) {
+	user, err := s.ValidateNewUser(user)
 	if err != nil {
 		return false, err
 	}
-	con := Connect()
-	defer con.Close()
+
 	sql := "insert into users (firstname, lastname, email, password) values ($1, $2, $3, $4)"
-	stmt, err := con.Prepare(sql)
+	stmt, err := s.DB.Prepare(sql)
 	if err != nil {
 		return false, err
 	}
@@ -37,11 +36,10 @@ func NewUser(user User) (bool, error) {
 	return true, err
 }
 
-func GetUserByEmail(email string) (User, error) {
-	con := Connect()
-	defer con.Close()
+func  (s Store) GetUserByEmail(email string) (User, error) {
+
 	sql := "select * from users where email = $1"
-	rs, err := con.Query(sql, email)
+	rs, err := s.DB.Query(sql, email)
 	if err != nil {
 		return User{}, err
 	}
@@ -56,11 +54,10 @@ func GetUserByEmail(email string) (User, error) {
 	return user, nil
 }
 
-func GetUsers() ([]User, error) {
-	con := Connect()
-	defer con.Close()
+func  (s Store) GetUsers() ([]User, error) {
+
 	sql := "select * from users"
-	rs, err := con.Query(sql)
+	rs, err := s.DB.Query(sql)
 	if err != nil {
 		return nil, err
 	}

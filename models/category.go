@@ -5,11 +5,9 @@ type Category struct {
   Description string
 }
 
-func GetCategories() ([]Category, error) {
-  con := Connect()
-  defer con.Close()
+func (s Store) GetCategories() ([]Category, error) {
   sql := "select * from category"
-  rs, err := con.Query(sql)
+  rs, err := s.DB.Query(sql)
   if err != nil {
     return nil, err
   }

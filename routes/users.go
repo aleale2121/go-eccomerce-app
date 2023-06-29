@@ -9,7 +9,7 @@ import (
 	"github.com/aleale2121/go-eccomerce-app/utils"
 )
 
-func registerGetHandler(w http.ResponseWriter, r *http.Request) {
+func (rs Routes) registerGetHandler(w http.ResponseWriter, r *http.Request) {
 	message, alert := sessions.Flash(r, w)
 	utils.ExecuteTemplate(w, "register.html", struct {
 		Alert utils.Alert
@@ -18,18 +18,18 @@ func registerGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func registerPostHandler(w http.ResponseWriter, r *http.Request) {
+func (rs Routes) registerPostHandler(w http.ResponseWriter, r *http.Request) {
 	_ = r.ParseForm()
 	var user models.User
 	user.FirstName = r.PostForm.Get("firstname")
 	user.LastName = r.PostForm.Get("lastname")
 	user.Email = r.PostForm.Get("email")
 	user.Password = r.PostForm.Get("password")
-	_, err := models.NewUser(user)
-	checkErrRegister(err, w, r)
+	_, err := rs.store.NewUser(user)
+	rs.checkErrRegister(err, w, r)
 }
 
-func checkErrRegister(err error, w http.ResponseWriter, r *http.Request) {
+func (rs Routes) checkErrRegister(err error, w http.ResponseWriter, r *http.Request) {
 	message := "Cadastrado com sucesso!"
 	if err != nil {
 		switch err {
@@ -53,8 +53,8 @@ func checkErrRegister(err error, w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
-func userGetHandler(w http.ResponseWriter, r *http.Request) {
-	users, err := models.GetUsers()
+func (rs Routes) userGetHandler(w http.ResponseWriter, r *http.Request) {
+	users, err := rs.store.GetUsers()
 	if err != nil {
 		utils.InternalServerError(w)
 		return

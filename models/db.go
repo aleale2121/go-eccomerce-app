@@ -2,28 +2,16 @@ package models
 
 import (
 	"database/sql"
-	"fmt"
-	"log"
-	"os"
 
 	_ "github.com/lib/pq"
 )
 
-func Connect() *sql.DB {
+func Connect(dbUrl string) (*sql.DB, error) {
 
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return db
-}
 
-func TestConnection() {
-	con := Connect()
-	defer con.Close()
-	err := con.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Database connected successfully!")
+	return db, nil
 }

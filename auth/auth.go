@@ -13,12 +13,12 @@ var (
 	ErrEmptyFields = errors.New("Fields cannot be empty")
 )
 
-func Singin(email, password string) (models.User, error) {
+func  Singin(s models.Store,email, password string) (models.User, error) {
 	err := validateFields(strings.ToLower(email), password)
 	if err != nil {
 		return models.User{}, err
 	}
-	user, err := models.GetUserByEmail(email)
+	user, err := s.GetUserByEmail(email)
 	if err != nil {
 		return user, err
 	}

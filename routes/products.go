@@ -19,8 +19,8 @@ var (
 	ErrRequiredProductName = errors.New("required product name")
 )
 
-func productGetHandler(w http.ResponseWriter, r *http.Request) {
-	products, err := models.GetProducts()
+func (rs Routes) productGetHandler(w http.ResponseWriter, r *http.Request) {
+	products, err := rs.store.GetProducts()
 	if err != nil {
 		utils.InternalServerError(w)
 		return
@@ -38,8 +38,8 @@ func productGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func productCreateGetHandler(w http.ResponseWriter, r *http.Request) {
-	categories, err := models.GetCategories()
+func  (rs Routes) productCreateGetHandler(w http.ResponseWriter, r *http.Request) {
+	categories, err := rs.store.GetCategories()
 	if err != nil {
 		utils.InternalServerError(w)
 		return
@@ -54,14 +54,14 @@ func productCreateGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func productCreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	product, err := verifyInputsProduct(r)
+func  (rs Routes) productCreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	product, err := rs.verifyInputsProduct(r)
 	if err != nil {
 		sessions.Message(fmt.Sprintf("%s", err), "danger", r, w)
 		http.Redirect(w, r, "/product-create", http.StatusSeeOther)
 		return
 	}
-	_, err = models.NewProduct(product)
+	_, err = rs.store.NewProduct(product)
 	if err != nil {
 		log.Println(err)
 		utils.InternalServerError(w)
@@ -71,7 +71,7 @@ func productCreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/products", http.StatusSeeOther)
 }
 
-func verifyInputsProduct(r *http.Request) (models.Product, error) {
+func  (rs Routes) verifyInputsProduct(r *http.Request) (models.Product, error) {
 	r.ParseForm()
 	var err error = nil
 	var product models.Product
@@ -96,15 +96,15 @@ func verifyInputsProduct(r *http.Request) (models.Product, error) {
 	return product, nil
 }
 
-func productEditGetHandler(w http.ResponseWriter, r *http.Request) {
+func (rs Routes) productEditGetHandler(w http.ResponseWriter, r *http.Request) {
 	keys := r.URL.Query()
 	productId, _ := strconv.ParseUint(keys.Get("productId"), 10, 64)
-	product, err := models.GetProductById(productId)
+	product, err := rs.store.GetProductById(productId)
 	if err != nil {
 		utils.InternalServerError(w)
 		return
 	}
-	categories, err := models.GetCategories()
+	categories, err := rs.store.GetCategories()
 	if err != nil {
 		utils.InternalServerError(w)
 		return
@@ -124,14 +124,14 @@ func productEditGetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func productEditPostHandler(w http.ResponseWriter, r *http.Request) {
-	product, err := verifyInputsProduct(r)
+func  (rs Routes) productEditPostHandler(w http.ResponseWriter, r *http.Request) {
+	product, err := rs.verifyInputsProduct(r)
 	if err != nil {
 		sessions.Message(fmt.Sprintf("%s", err), "danger", r, w)
 		http.Redirect(w, r, fmt.Sprintf("product-edit?productId=%d", product.Id), http.StatusSeeOther)
 		return
 	}
-	rows, err := models.UpdateProduct(product)
+	rows, err := rs.store.UpdateProduct(product)
 	if err != nil {
 		log.Println(err)
 		utils.InternalServerError(w)
@@ -141,7 +141,7 @@ func productEditPostHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/products", http.StatusSeeOther)
 }
 
-func productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
+func  (rs Routes) productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
 	keys := r.URL.Query()
 	id, _ := strconv.ParseUint(keys.Get("productId"), 10, 64)
 	ok, _ := strconv.ParseBool(keys.Get("confirm"))
@@ -149,7 +149,7 @@ func productDeleteGetHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/products", http.StatusSeeOther)
 		return
 	}
-	rows, err := models.DeleteProduct(id)
+	rows, err := rs.store.DeleteProduct(id)
 	if err != nil {
 		log.Println(err)
 		utils.InternalServerError(w)
