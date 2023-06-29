@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eccomerce-deployment
+  labels:
+    app: eccomerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eccomerce
+  template:
+    metadata:
+      labels:
+        app: eccomerce
+    spec:
+      containers:
+      - name: eccomerce
+        image: 710979589756.dkr.ecr.eu-north-1.amazonaws.com/simpleeccomerce:2106907d6f44f778f2a8bf83ed0fd56c7bc1dc91
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      
