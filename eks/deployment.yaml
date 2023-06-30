@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: eccomerce
-        image: 710979589756.dkr.ecr.eu-north-1.amazonaws.com/simpleeccomerce:2106907d6f44f778f2a8bf83ed0fd56c7bc1dc91
+        image: 710979589756.dkr.ecr.eu-north-1.amazonaws.com/simpleeccomerce:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
