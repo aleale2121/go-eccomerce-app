@@ -1,0 +1,17 @@
+version: '2'
+sql:
+- schema: db/migration/
+  queries: db/query/
+  engine: postgresql
+  database:
+    uri: postgresql://root:secret@eccomerce:5432
+  rules:
+  - sqlc/db-prepare
+  gen:
+    go:
+      package: db
+      out: db/postgresql
+      emit_db_tags: true
+      emit_prepared_queries: false
+      emit_interface: false
+      emit_exact_table_names: false
